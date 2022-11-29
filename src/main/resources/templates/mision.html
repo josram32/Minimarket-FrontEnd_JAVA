@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="css/estilos.css">
+    <title>Minimarket</title>
+    <style>
+    	@import url('https://fonts.googleapis.com/css2?family=Marko+One&display=swap');
+    	#boton {
+    		width: 200px;
+    	}
+    	#card {
+    		margin-top: 100px;
+    		margin-left: 250px;
+    		margin-right: 250px;
+    	}
+    	#mision {
+    		font-family: 'Marko One', serif;
+    		font-size: 25px;
+    	}
+    </style>
+</head>
+<body>
+	<div class="d-flex">
+        <div id="sidebar-container" th:replace="principal::sidebar"></div>
+        <div class="w-100">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light" th:replace="principal::nav"></nav>
+            <div id="content">
+            	<form>
+            		<div id="card" class="card">
+	            		<div class="card-header text-center alert alert-primary">
+	            			<h5 id="mision"><strong>Misión</strong></h5>
+	            		</div>
+	            		<div class="card-body bg-grey">
+	            			<p id="mision">
+	            			Ofrecer al público los mejores productos con la mejor garantía y que los clientes 
+	            			encuentren en un mismo lugar todos los productos y servicios que necesitan, 
+	            			teniendo la opción del solicitarlos a través de la página web sin tener que desplazarse y 
+	            			siempre recibiendo la mejor atención posible.
+	            			</p>
+	            		</div>
+	            	</div>
+            	</form>
+            </div>
+        </div>
+    </div>    
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

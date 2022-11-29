@@ -1,0 +1,57 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap'); 
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital@1&display=swap'); 
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Carter+One&display=swap'); 
+@import url('https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap');*/
+
+body {
+    overflow: hidden;
+    /* font-family: 'Calibri'; */
+    color: #111B54;
+}
+#sidebar-container {
+    background: rgb(88,113,116);
+    min-height: 100vh;
+}
+#sidebar-container .menu {
+    width: 80%;
+    margin-left: 30px;
+}
+#sidebar-container .menu a {
+    text-decoration: none;
+}
+#sidebar-container .menu a:hover {
+    background: brown;
+    border-radius: 5px;
+}
+
+#logo {
+    border-radius: 2px;
+}
+#opcion {
+    color: rgb(88,113,116);
+}
+#opcion:hover {
+    background: brown;
+    text-decoration: none;
+    color: #fff;
+    border-radius: 2px;
+}
+
+#content {
+    overflow-y: auto;
+    height: 100vh;
+    padding-bottom: 5rem;
+    background: whitesmoke;
+}
+
+#cuerpo {
+    background: whitesmoke;
+}
+#contenedor {
+    width: 60%;
+    /* box-shadow: 14px 14px 20px 0 rgba(20, 20, 20, 0.3); */
+    box-shadow: 0 0 30px rgba(20, 20, 20, 0.3);
+    padding-top: 20px;
+    padding-bottom: 5px;
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
+    	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+		<title>Minimarket - De todo un poco</title>
+		<style>
+	        .sombra { box-shadow: 14px 14px 20px 0 rgba(20, 20, 20, 0.3); }
+	        body { background-color: whitesmoke; }
+	        .centro { margin-top: 6rem; margin-left: 33rem; }
+    	</style>
+	</head>
+	<body>
+		<div class="container col-lg-4 centro">
+	        <div class="card sombra col-sm-10">
+	            <div class="card-body">
+	                <form th:action="validar" method="post" class="form-sign" th:object="${usuario}">
+	                    <div class="form-group text-center">
+	                        <h3>Inicio de sesión</h3>
+	                        <img th:src="@{'img/login.jpg'}" alt="" width="150">
+	                    </div>
+	                    <div class="form-group">
+	                        <label for="">Usuario:</label>
+	                        <div class="input-group-prepend">
+	                            <div class="input-group-text">@</div>
+	                            <input type="email" th:field="*{correo}" class="form-control" placeholder="Ingrese correo electrónico">
+	                          </div>
+	                    </div>
+	                    <div class="form-group">
+	                        <label for="">Contraseña:</label>
+	                        <div class="input-group-prepend">
+	                            <span class="input-group-text fas fa-key"></span>
+	                            <input type="password" th:field="*{clave}" class="form-control" placeholder="Ingrese contraseña">
+	                        </div>
+	                    </div>
+	                    <button class="btn btn-primary btn-block" type="submit">Ingresar</button>
+	                </form>
+	                <div th:class="${clase}" role="alert" th:text="${mensaje}"></div>
+	            </div>
+	        </div>
+	    </div>
+	</body>
+</html>
