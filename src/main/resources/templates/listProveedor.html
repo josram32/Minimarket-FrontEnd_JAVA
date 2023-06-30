@@ -53,8 +53,10 @@
 														</form>
                                 					</td>
                                 					<td>
-														<button th:onclick="eliminar_prv([[${v.ide_prv}]], [[${v.nom_prv}]])" 
-															class="btn btn-danger">Eliminar</button>
+														<form action="/eliminar_prv" method="delete">
+															<input type="hidden" name="ide_prv" th:value="${v.ide_prv}"/>
+															<button class="btn btn-danger">Eliminar</button>
+														</form>
 													</td>
                                 				</tr>
                                 			</tbody>

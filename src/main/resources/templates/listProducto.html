@@ -49,14 +49,16 @@
                                 					<td th:text="${o.objUnidadMedida.des_ume}"></td>
                                 					<td th:text="${o.vig_pro}"></td>
                                 					<td>
-                                						<form action="/editar_pro" method="post">
+                                						<form action="/editar_pro" method="get">
 															<input type="hidden" name="ide_pro" th:value="${o.ide_pro}"/>
 															<button class="btn btn-success">Editar</button>
 														</form>
                                 					</td>
                                 					<td>
-														<button th:onclick="eliminar_pro([[${o.ide_pro}]], [[${o.des_pro}]])" 
-															class="btn btn-danger">Eliminar</button>
+														<form action="/eliminar_pro" method="delete">
+															<input type="hidden" name="ide_pro" th:value="${o.ide_pro}"/>
+															<button class="btn btn-danger">Eliminar</button>
+														</form>
 													</td>
                                 				</tr>
                                 			</tbody>

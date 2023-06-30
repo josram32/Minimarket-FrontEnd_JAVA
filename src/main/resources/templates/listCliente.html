@@ -47,14 +47,16 @@
                                 					<td th:text="${c.ema_cli}"></td>
                                 					<td th:text="${c.dir_cli} + ' - ' + ${c.objUbigeo.des_dpt}"></td>
                                 					<td>
-                                						<form action="/editar_cli" method="post">
+                                						<form action="/editar_cli" method="get">
 															<input type="hidden" name="ide_cli" th:value="${c.ide_cli}"/>
 															<button class="btn btn-success">Editar</button>
 														</form>
                                 					</td>
                                 					<td>
-														<button th:onclick="eliminar_cli([[${c.ide_cli}]], [[${c.nom_cli}]])" 
-															class="btn btn-danger">Eliminar</button>
+														<form action="/eliminar_cli" method="delete">
+															<input type="hidden" name="ide_cli" th:value="${c.ide_cli}"/>
+															<button class="btn btn-danger">Eliminar</button>
+														</form>
 													</td>
                                 				</tr>
                                 			</tbody>

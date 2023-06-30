@@ -1,8 +1,5 @@
 package com.minimarket.controller;
 
-import java.util.List;
-
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -16,49 +13,51 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
+import com.minimarket.model.Cargo;
+import com.minimarket.model.Proveedor;
 import com.minimarket.model.TipoDocumento;
 import com.minimarket.model.TipoUsuario;
+import com.minimarket.model.Ubigeo;
 import com.minimarket.model.Usuario;
 
 @Controller
-public class UsuarioController {
-
+public class ProveedorController {
 	private String URL = "http://localhost:8091";
 
-	Usuario u = new Usuario();
+	Proveedor v = new Proveedor();
 
-	@RequestMapping("/user")
+	@RequestMapping("/proveedor")
 	private String lista(Model model) {
 		RestTemplate rt = new RestTemplate();
-		ResponseEntity<Usuario[]> responseProg = rt.getForEntity(URL + "/usuario/lista", Usuario[].class);
-		model.addAttribute("lstUsuarios", responseProg.getBody());
-		model.addAttribute("usuario", new Usuario());
+		ResponseEntity<Proveedor[]> responseProg = rt.getForEntity(URL + "/proveedor/lista", Proveedor[].class);
+		model.addAttribute("lstProveedores", responseProg.getBody());
+		model.addAttribute("proveedor", new Proveedor());
 		return "listUser";
 	}
 
-	@RequestMapping("/crear_usu")
-	public String openNewUser(Model model) {
+	@RequestMapping("/crear_prv")
+	public String openNewProveedor(Model model) {
 		RestTemplate rt = new RestTemplate();
-		ResponseEntity<TipoUsuario[]> responseProg = rt.getForEntity(URL + "/util/tipoUsuario", TipoUsuario[].class);
-		ResponseEntity<TipoDocumento[]> responseProy = rt.getForEntity(URL + "/util/tipoDocumento",
-				TipoDocumento[].class);
-		model.addAttribute("usuario", new Usuario());
+		ResponseEntity<Cargo[]> responseProg = rt.getForEntity(URL + "/util/cargo", Cargo[].class);
+		ResponseEntity<Ubigeo[]> responseProy = rt.getForEntity(URL + "/util/ubigeo",
+				Ubigeo[].class);
+		model.addAttribute("proveedor", new Proveedor());
 		model.addAttribute("tipocla", "password");
-		model.addAttribute("lstTipoUser", responseProg.getBody());
-		model.addAttribute("lstTipoDocs", responseProy.getBody());
-		return "newUser";
+		model.addAttribute("lstCargo", responseProg.getBody());
+		model.addAttribute("lstUbigeo", responseProy.getBody());
+		return "newProveedor";
 	}
 
-	@RequestMapping("graba_usu")
-	public String saveNewUser(@ModelAttribute Usuario usuario, Model model, RedirectAttributes redirect) {
-		String apiUrlRegistro = URL + "/usuario/registrar";
+	@RequestMapping("graba_prv")
+	public String saveNewUser(@ModelAttribute Proveedor proveedor, Model model, RedirectAttributes redirect) {
+		String apiUrlRegistro = URL + "/proveedor/registrar";
 
 		// Crea una instancia de RestTemplate
 		RestTemplate restTemplate = new RestTemplate();
 
 		try {
 			Gson gson = new Gson();
-			String json = gson.toJson(usuario);
+			String json = gson.toJson(proveedor);
 
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
@@ -66,13 +65,13 @@ public class UsuarioController {
 
 			restTemplate.postForObject(apiUrlRegistro, entity, String.class);
 
-			redirect.addFlashAttribute("mensaje", "Se reigstró usuario exitosamente");
+			redirect.addFlashAttribute("mensaje", "Se reigstró el proveedor exitosamente");
 			redirect.addFlashAttribute("clase", "alert alert-success");
 		} catch (Exception e) {
-			redirect.addFlashAttribute("mensaje", "Error al registrar usuario");
+			redirect.addFlashAttribute("mensaje", "Error al registrar proveedor");
 			redirect.addFlashAttribute("clase", "alert alert-danger");
 		}
-		return "redirect:/crear_usu";
+		return "redirect:/crear_prv";
 	}
 
 	@RequestMapping("editar_usu")
@@ -126,3 +125,4 @@ public class UsuarioController {
 		return "redirect:/user";
 	}
 }
+

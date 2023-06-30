@@ -1,8 +1,5 @@
 package com.minimarket.controller;
 
-import java.util.List;
-
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -15,40 +12,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.google.gson.Gson;
-import com.minimarket.model.TipoDocumento;
-import com.minimarket.model.TipoUsuario;
-import com.minimarket.model.Usuario;
+import com.minimarket.model.Categoria;
+import com.minimarket.model.Producto;
+import com.minimarket.model.Proveedor;
+import com.minimarket.model.UnidadMedida;
 
 @Controller
-public class UsuarioController {
-
+public class ProductoController {
+	
 	private String URL = "http://localhost:8091";
 
-	Usuario u = new Usuario();
+	Producto p = new Producto();
 
-	@RequestMapping("/user")
+	@RequestMapping("/producto")
 	private String lista(Model model) {
 		RestTemplate rt = new RestTemplate();
-		ResponseEntity<Usuario[]> responseProg = rt.getForEntity(URL + "/usuario/lista", Usuario[].class);
-		model.addAttribute("lstUsuarios", responseProg.getBody());
-		model.addAttribute("usuario", new Usuario());
-		return "listUser";
+		ResponseEntity<Producto[]> responseProg = rt.getForEntity(URL + "/producto/lista", Producto[].class);
+		model.addAttribute("lstProductos", responseProg.getBody());
+		model.addAttribute("producto", new Producto());
+		return "listProducto";
 	}
-
-	@RequestMapping("/crear_usu")
-	public String openNewUser(Model model) {
+	
+	@RequestMapping("/crear_pro")
+	public String openNewProducto(Model model) {
 		RestTemplate rt = new RestTemplate();
-		ResponseEntity<TipoUsuario[]> responseProg = rt.getForEntity(URL + "/util/tipoUsuario", TipoUsuario[].class);
-		ResponseEntity<TipoDocumento[]> responseProy = rt.getForEntity(URL + "/util/tipoDocumento",
-				TipoDocumento[].class);
-		model.addAttribute("usuario", new Usuario());
+		ResponseEntity<Categoria[]> lstCategoria = rt.getForEntity(URL + "/util/categoria", Categoria[].class);
+		ResponseEntity<Proveedor[]> lstProveedor = rt.getForEntity(URL + "/proveedor/lista",Proveedor[].class);
+		ResponseEntity<UnidadMedida[]> lstUnidadMedida = rt.getForEntity(URL + "/util/unidadMedida",UnidadMedida[].class);
+		model.addAttribute("producto", new Producto());
 		model.addAttribute("tipocla", "password");
-		model.addAttribute("lstTipoUser", responseProg.getBody());
-		model.addAttribute("lstTipoDocs", responseProy.getBody());
-		return "newUser";
+		model.addAttribute("lstCategorias", lstCategoria.getBody());
+		model.addAttribute("lstProveedor", lstProveedor.getBody());
+		model.addAttribute("lstUMedida", lstUnidadMedida.getBody());
+		return "newProducto";
 	}
-
+	/*
 	@RequestMapping("graba_usu")
 	public String saveNewUser(@ModelAttribute Usuario usuario, Model model, RedirectAttributes redirect) {
 		String apiUrlRegistro = URL + "/usuario/registrar";
@@ -94,8 +92,8 @@ public class UsuarioController {
 
 			model.addAttribute("usuario", usuarioEncontrado);
 			model.addAttribute("tipocla", "text");
-			model.addAttribute("lstTipoUser", lstTipoUser.getBody());
-			model.addAttribute("lstTipoDocs", lstTipoDocs.getBody());
+			model.addAttribute("lstTipoUser", lstTipoUser);
+			model.addAttribute("lstTipoDocs", lstTipoDocs);
 			return "newUser";
 
 		} catch (Exception e) {
@@ -104,11 +102,11 @@ public class UsuarioController {
 			return "redirect:/crear_usu";
 		}
 
-	}
+	}*/
 
-	@RequestMapping("eliminar_usu")
-	public String eliminarUser(@ModelAttribute Usuario u, Model model, RedirectAttributes redirect) {
-		String apiUrl = "http://localhost:8091/usuario/eliminar/" + u.getIde_usu();
+	@RequestMapping("eliminar_pro")
+	public String eliminarPro(@ModelAttribute Producto p, Model model, RedirectAttributes redirect) {
+		String apiUrl = "http://localhost:8091/producto/eliminar/" + p.getIde_pro();
 
 		// Crea una instancia de RestTemplate
 		RestTemplate restTemplate = new RestTemplate();
@@ -117,12 +115,13 @@ public class UsuarioController {
 			// Realiza la solicitud HTTP para eliminar al usuario por su ID
 			restTemplate.exchange(apiUrl, HttpMethod.DELETE, null, Void.class);
 
-			model.addAttribute("mensaje", "Usuario eliminado");
+			model.addAttribute("mensaje", "Producto eliminado");
 			model.addAttribute("clase", "text-center alert alert-success");
 		} catch (Exception e) {
-			model.addAttribute("mensaje", "Error al eliminar usuario: " + e.getMessage());
+			model.addAttribute("mensaje", "Error al eliminar producto: " + e.getMessage());
 			model.addAttribute("clase", "text-center alert alert-danger");
 		}
-		return "redirect:/user";
+		return "redirect:/producto";
 	}
+
 }
