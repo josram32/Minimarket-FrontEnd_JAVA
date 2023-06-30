@@ -1,19 +1,11 @@
 package com.minimarket.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
-import lombok.Data;
-
-@Data
-@Table(name= "tbl_UNIDAD_MEDIDA")
-@Entity
 public class UnidadMedida {
 	
-	@Id
 	private int ide_ume;
 	private String des_ume;
+	
 	public int getIde_ume() {
 		return ide_ume;
 	}

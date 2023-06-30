@@ -1,8 +1,8 @@
 package com.minimarket.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+/*import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.minimarket.model.Cliente;
 import com.minimarket.repository.IClienteRepository;
 import com.minimarket.repository.IUbigeoRepository;
-
+*/
 @Controller
 public class ClienteController {
-	
+	/*
 	@Autowired
 	private IClienteRepository repocli;
 	
@@ -70,12 +70,12 @@ public class ClienteController {
 	 * "text-center alert alert-danger"); }
 	 * 
 	 * model.addAttribute("lstClientes", repocli.findAll()); return "listCliente"; }
-	 */
+	 *
 	
 	@GetMapping("/eliminar_cli/{id}")
 	public String eliminarCliente(Model model, @PathVariable int id) {
 		repocli.deleteById(id);
 		return "redirect:/listCliente";
-	}
+	}*/
 
 }

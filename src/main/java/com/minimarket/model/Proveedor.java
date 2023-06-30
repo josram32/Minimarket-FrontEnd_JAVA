@@ -1,22 +1,7 @@
 package com.minimarket.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import lombok.Data;
-
-@Data
-@Table(name= "tbl_PROVEEDOR")
-@Entity
 public class Proveedor {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int ide_prv;
 	private String ruc_prv;
 	private String nom_prv;
@@ -27,12 +12,8 @@ public class Proveedor {
 	private String dir_prv;
 	private String ide_ubi;
 	
-	@ManyToOne
-	@JoinColumn(name="ide_car", insertable=false, updatable=false)
 	private Cargo objCargo;
 	
-	@ManyToOne
-	@JoinColumn(name="ide_ubi", insertable=false, updatable=false)
 	private Ubigeo objUbigeo;
 
 	public int getIde_prv() {

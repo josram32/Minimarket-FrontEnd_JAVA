@@ -1,22 +1,8 @@
 package com.minimarket.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
-import lombok.Data;
-
-@Data
-@Table(name= "tbl_DETALLE_VENTA")
-@Entity
 public class DetalleVenta {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int ide_dve;
 	private int ide_ven;
 	private int ide_pro;
@@ -25,12 +11,8 @@ public class DetalleVenta {
 	private double dsc_ven;
 	private double imp_ven;
 	
-	@ManyToOne
-	@JoinColumn(name="ide_ven", insertable=false, updatable=false)
 	private Venta objVenta;
 	
-	@ManyToOne
-	@JoinColumn(name="ide_pro", insertable=false, updatable=false)
 	private Producto objProducto;
 
 	public int getIde_dve() {

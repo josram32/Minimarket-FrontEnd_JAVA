@@ -1,17 +1,7 @@
 package com.minimarket.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import lombok.Data;
-
-@Data
-@Table(name= "tbl_UBIGEO")
-@Entity
 public class Ubigeo {
 	
-	@Id
 	private String ide_ubi;
 	private String cod_dpt;
 	private String cod_pro;
@@ -19,6 +9,7 @@ public class Ubigeo {
 	private String des_dpt;
 	private String des_pro;
 	private String des_dis;
+	
 	public String getIde_ubi() {
 		return ide_ubi;
 	}

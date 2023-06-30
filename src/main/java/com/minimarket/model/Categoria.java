@@ -1,20 +1,12 @@
 package com.minimarket.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import lombok.Data;
-
-@Data
-@Table(name= "tbl_CATEGORIAS")
-@Entity
 public class Categoria {
 	
-	@Id
 	private int ide_cat;
 	private String nom_cat;
 	private String des_cat;
+	
+	
 	public int getIde_cat() {
 		return ide_cat;
 	}

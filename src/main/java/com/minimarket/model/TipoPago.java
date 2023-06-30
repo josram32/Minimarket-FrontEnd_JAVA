@@ -1,19 +1,11 @@
 package com.minimarket.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
-import lombok.Data;
-
-@Data
-@Table(name= "tbl_TIPO_PAGO")
-@Entity
 public class TipoPago {
 	
-	@Id
 	private int ide_tpa;
 	private String des_tpa;
+	
 	public int getIde_tpa() {
 		return ide_tpa;
 	}

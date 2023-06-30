@@ -1,46 +1,20 @@
 package com.minimarket.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import lombok.Data;
-
-@Data
-@Table(name= "tbl_USUARIO")
-@Entity
 public class Usuario {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int ide_usu;
-	
-	@Column(name= "cla_usu")
-	private String clave;
-	
+	private String clave;	
 	private String nom_usu;
 	private String ape_usu;
 	private String fna_usu;
 	private String tel_usu;
 	private int ide_tdo;
 	private String ndi_usu;
-	
-	@Column(name= "ema_usu")
-	private String correo;
-	
+	private String correo;	
 	private int ide_tus;
 	
-	@ManyToOne
-	@JoinColumn(name="ide_tus", insertable=false, updatable=false)
 	private TipoUsuario objTipoUsuario;
 	
-	@ManyToOne
-	@JoinColumn(name="ide_tdo", insertable=false, updatable=false)
 	private TipoDocumento objTipoDocumento;
 
 	public int getIde_usu() {

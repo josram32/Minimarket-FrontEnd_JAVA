@@ -1,22 +1,10 @@
 package com.minimarket.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import lombok.Data;
-
-@Data
-@Table(name= "tbl_TIPO_DOCUMENTO")
-@Entity
 public class TipoDocumento {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int ide_tdo;
 	private String des_tdo;
+	
 	public int getIde_tdo() {
 		return ide_tdo;
 	}

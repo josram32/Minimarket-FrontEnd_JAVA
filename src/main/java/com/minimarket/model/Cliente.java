@@ -1,20 +1,8 @@
 package com.minimarket.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
-
-@Table(name= "tbl_CLIENTE")
-@Entity
 public class Cliente {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int ide_cli;
 	private String nom_cli;
 	private String tel_cli;
@@ -25,9 +13,8 @@ public class Cliente {
 	private String dir_cli;
 	private String ide_ubi;
 	
-	@ManyToOne
-	@JoinColumn(name="ide_ubi", insertable=false, updatable=false)
 	private Ubigeo objUbigeo;
+	
 
 	public int getIde_cli() {
 		return ide_cli;

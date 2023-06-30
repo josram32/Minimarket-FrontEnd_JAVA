@@ -1,17 +1,8 @@
 package com.minimarket.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
-import lombok.Data;
-
-@Data
-@Table(name= "tbl_TIPO_COMPROBANTE")
-@Entity
 public class TipoComprobante {
 	
-	@Id
 	private int ide_tco;
 	private String des_tco;
 	public int getIde_tco() {
