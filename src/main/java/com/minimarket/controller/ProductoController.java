@@ -21,7 +21,7 @@ import com.minimarket.model.UnidadMedida;
 @Controller
 public class ProductoController {
 	
-	private String URL = "http://localhost:8091";
+	private String URL = "http://localhost:8094";
 
 	Producto p = new Producto();
 
@@ -82,7 +82,7 @@ public class ProductoController {
 
 		try {
 			// Realiza la solicitud HTTP para buscar al usuario por su ID
-			ResponseEntity<Producto[]> productoEncontrado = rt.exchange(apiUrl, HttpMethod.GET, null, Producto[].class);
+			ResponseEntity<Producto> productoEncontrado = rt.exchange(apiUrl, HttpMethod.GET, null, Producto.class);
 			ResponseEntity<Categoria[]> lstCategoria = rt.getForEntity(URL + "/util/categoria", Categoria[].class);
 			ResponseEntity<Proveedor[]> lstProveedor = rt.getForEntity(URL + "/proveedor/lista",Proveedor[].class);
 			ResponseEntity<UnidadMedida[]> lstUnidadMedida = rt.getForEntity(URL + "/util/unidadMedida",UnidadMedida[].class);
@@ -119,6 +119,15 @@ public class ProductoController {
 			model.addAttribute("clase", "text-center alert alert-danger");
 		}
 		return "redirect:/producto";
+	}
+	
+	@RequestMapping("/catalogo")
+	private String catalogo(Model model) {
+		RestTemplate rt = new RestTemplate();
+		ResponseEntity<Producto[]> lstProductos = rt.getForEntity(URL + "/producto/lista", Producto[].class);
+		model.addAttribute("lstProductos", lstProductos.getBody());
+		model.addAttribute("producto", new Producto());
+		return "catalogo";
 	}
 
 }

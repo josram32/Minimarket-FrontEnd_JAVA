@@ -20,7 +20,7 @@ import com.minimarket.model.Usuario;
 @Controller
 public class UsuarioController {
 
-	private String URL = "http://localhost:8091";
+	private String URL = "http://localhost:8094";
 
 	Usuario u = new Usuario();
 
@@ -81,15 +81,13 @@ public class UsuarioController {
 
 		try {
 			// Realiza la solicitud HTTP para buscar al usuario por su ID
-			ResponseEntity<Usuario[]> response = rt.exchange(apiUrl, HttpMethod.GET, null, Usuario[].class);
+			ResponseEntity<Usuario> usuarioEncontrado = rt.exchange(apiUrl, HttpMethod.GET, null, Usuario.class);
 			ResponseEntity<TipoUsuario[]> lstTipoUser = rt.getForEntity(URL + "/util/tipoUsuario",
 					TipoUsuario[].class);
 			ResponseEntity<TipoDocumento[]> lstTipoDocs = rt.getForEntity(URL + "/util/tipoDocumento",
 					TipoDocumento[].class);
-			// Obtiene la respuesta de la API REST
-			Usuario[] usuarioEncontrado = response.getBody();
 
-			model.addAttribute("usuario", usuarioEncontrado);
+			model.addAttribute("usuario", usuarioEncontrado.getBody());
 			model.addAttribute("tipocla", "text");
 			model.addAttribute("lstTipoUser", lstTipoUser.getBody());
 			model.addAttribute("lstTipoDocs", lstTipoDocs.getBody());

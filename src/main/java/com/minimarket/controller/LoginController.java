@@ -1,6 +1,5 @@
 package com.minimarket.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -20,7 +19,7 @@ public class LoginController {
 	
 	Usuario u = new Usuario();
 	
-	private String URL="http://localhost:8091";
+	private String URL="http://localhost:8094";
 	
 
 	@GetMapping("/")
@@ -48,10 +47,10 @@ public class LoginController {
 
 	@PostMapping("/validar")
 	public String validarAcceso(Model model, @ModelAttribute Usuario usuario) {
-	    String apiUrl = "http://localhost:8091/login";
+	    String apiUrl = URL + "/login";
 	    
 	    // Crea una instancia de RestTemplate
-	    RestTemplate restTemplate = new RestTemplate();
+	    RestTemplate rt = new RestTemplate();
 	    
 	    // Configura los encabezados de la solicitud
 	    HttpHeaders headers = new HttpHeaders();
@@ -61,10 +60,10 @@ public class LoginController {
 	    HttpEntity<Usuario> requestEntity = new HttpEntity<>(usuario, headers);
 	    
 	    // Realiza la solicitud HTTP utilizando el método POST y pasando el objeto usuario
-	    ResponseEntity<Usuario> response = restTemplate.exchange(apiUrl, HttpMethod.POST, requestEntity, Usuario.class);
+	    ResponseEntity<Usuario> usuarioEncontrado = rt.exchange(apiUrl, HttpMethod.POST, requestEntity, Usuario.class);
 	    
 	    // Obtiene la respuesta de la API REST
-	    Usuario u = response.getBody();
+	    Usuario u = usuarioEncontrado.getBody();
 	    
 	    if (u == null) {
 	        model.addAttribute("mensaje", "Usuario o clave incorrecto");

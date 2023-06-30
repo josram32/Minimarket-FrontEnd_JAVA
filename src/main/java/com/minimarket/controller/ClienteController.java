@@ -19,7 +19,7 @@ import com.minimarket.model.Ubigeo;
 @Controller
 public class ClienteController {
 	
-	private String URL = "http://localhost:8091";
+	private String URL = "http://localhost:8094";
 	
 	Cliente c = new Cliente();
 	
@@ -77,7 +77,7 @@ public class ClienteController {
 
 		try {
 			// Realiza la solicitud HTTP para buscar al usuario por su ID
-			ResponseEntity<Cliente[]> clienteEncontrado = rt.exchange(apiUrl, HttpMethod.GET, null, Cliente[].class);
+			ResponseEntity<Cliente> clienteEncontrado = rt.exchange(apiUrl, HttpMethod.GET, null, Cliente.class);
 			ResponseEntity<Ubigeo[]> lstUbigeo = rt.getForEntity(URL + "/util/ubigeo", Ubigeo[].class);
 			model.addAttribute("cliente", clienteEncontrado.getBody());
 			model.addAttribute("lstUbigeo", lstUbigeo.getBody());

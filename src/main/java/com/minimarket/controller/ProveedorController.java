@@ -19,7 +19,7 @@ import com.minimarket.model.Ubigeo;
 
 @Controller
 public class ProveedorController {
-	private String URL = "http://localhost:8091";
+	private String URL = "http://localhost:8094";
 
 	Proveedor v = new Proveedor();
 
@@ -78,7 +78,7 @@ public class ProveedorController {
 
 		try {
 			// Realiza la solicitud HTTP para buscar al usuario por su ID
-			ResponseEntity<Proveedor[]> proveedorEncontrado = rt.exchange(apiUrl, HttpMethod.GET, null, Proveedor[].class);
+			ResponseEntity<Proveedor> proveedorEncontrado = rt.exchange(apiUrl, HttpMethod.GET, null, Proveedor.class);
 			ResponseEntity<Cargo[]> lstCargo = rt.getForEntity(URL + "/util/cargo", Cargo[].class);
 			ResponseEntity<Ubigeo[]> lstUbigeo = rt.getForEntity(URL + "/util/ubigeo",Ubigeo[].class);
 			// Obtiene la respuesta de la API REST
