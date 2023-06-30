@@ -5,7 +5,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,14 +26,14 @@ public class ClienteController {
 	@RequestMapping("/cliente")
 	private String lista(Model model) {
 		RestTemplate rt = new RestTemplate();
-		ResponseEntity<Cliente[]> responseProg = rt.getForEntity(URL + "/cliente/lista", Cliente[].class);
-		model.addAttribute("lstClientes", responseProg.getBody());
+		ResponseEntity<Cliente[]> lstClientes = rt.getForEntity(URL + "/cliente/lista", Cliente[].class);
+		model.addAttribute("lstClientes", lstClientes.getBody());
 		model.addAttribute("cliente", new Cliente());
 		return "listCliente";
 	}
 	
 	@RequestMapping("/crear_cli")
-	public String openNewCliente(Model model) {
+	public String crearCliente(Model model) {
 		RestTemplate rt = new RestTemplate();
 		ResponseEntity<Ubigeo[]> lstUbigeo = rt.getForEntity(URL + "/util/ubigeo", Ubigeo[].class);
 		model.addAttribute("cliente", new Cliente());
@@ -44,11 +43,11 @@ public class ClienteController {
 	
 	
 	@RequestMapping("graba_cli")
-	public String saveNewUser(@ModelAttribute Cliente cliente, Model model, RedirectAttributes redirect) {
+	public String grabarCliente(@ModelAttribute Cliente cliente, Model model, RedirectAttributes redirect) {
 		String apiUrlRegistro = URL + "/cliente/registrar";
 
 		// Crea una instancia de RestTemplate
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate rt = new RestTemplate();
 
 		try {
 			Gson gson = new Gson();
@@ -58,7 +57,7 @@ public class ClienteController {
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			HttpEntity<String> entity = new HttpEntity<>(json, headers);
 
-			restTemplate.postForObject(apiUrlRegistro, entity, String.class);
+			rt.postForObject(apiUrlRegistro, entity, String.class);
 
 			redirect.addFlashAttribute("mensaje", "Se reigstró el cliente exitosamente");
 			redirect.addFlashAttribute("clase", "alert alert-success");
@@ -68,40 +67,39 @@ public class ClienteController {
 		}
 		return "redirect:/crear_cli";
 	}
-	/*
-	@PostMapping("editar_cli")
-	public String buscarCliente(@ModelAttribute Cliente c, Model model) {
-				
-		model.addAttribute("cliente", repocli.findById(c.getIde_cli()));
-		model.addAttribute("lstUbigeo", repoubi.findAll());
-		return "newCliente";
-	}
 	
-	@PostMapping("graba_cli")
-	public String saveNewCliente(@ModelAttribute Cliente cliente, Model model) {
-		
-		try {
-			repocli.save(cliente);
-			model.addAttribute("mensaje", "Cliente registrado satisfactoriamente");
-			model.addAttribute("clase", "alert alert-success");
-		} catch (Exception e) {
-			model.addAttribute("mensaje", "Error al registrar cliente");
-			model.addAttribute("clase", "alert alert-danger");
-		}
-		return "newCliente";
-	}
-	*/
-	
-	@RequestMapping("eliminar_cli")
-	public String eliminarCliente(@ModelAttribute Cliente c, Model model, RedirectAttributes redirect) {
-		String apiUrl = "http://localhost:8091/cliente/eliminar/" + c.getIde_cli();
+	@RequestMapping("editar_cli")
+	public String buscarCliente(@ModelAttribute Cliente cliente, Model model, RedirectAttributes redirect) {
+		String apiUrl = URL + "/cliente/buscar/" + cliente.getIde_cli();
 
 		// Crea una instancia de RestTemplate
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate rt = new RestTemplate();
+
+		try {
+			// Realiza la solicitud HTTP para buscar al usuario por su ID
+			ResponseEntity<Cliente[]> clienteEncontrado = rt.exchange(apiUrl, HttpMethod.GET, null, Cliente[].class);
+			ResponseEntity<Ubigeo[]> lstUbigeo = rt.getForEntity(URL + "/util/ubigeo", Ubigeo[].class);
+			model.addAttribute("cliente", clienteEncontrado.getBody());
+			model.addAttribute("lstUbigeo", lstUbigeo.getBody());
+			return "newCliente";
+
+		} catch (Exception e) {
+			model.addAttribute("mensaje", "Error al buscar el cliente");
+			model.addAttribute("clase", "alert alert-danger");
+			return "redirect:/crear_pro";
+		}
+
+	}
+	@RequestMapping("eliminar_cli")
+	public String eliminarCliente(@ModelAttribute Cliente cliente, Model model, RedirectAttributes redirect) {
+		String apiUrl = "http://localhost:8091/cliente/eliminar/" + cliente.getIde_cli();
+
+		// Crea una instancia de RestTemplate
+		RestTemplate rt = new RestTemplate();
 
 		try {
 			// Realiza la solicitud HTTP para eliminar al usuario por su ID
-			restTemplate.exchange(apiUrl, HttpMethod.DELETE, null, Void.class);
+			rt.exchange(apiUrl, HttpMethod.DELETE, null, Void.class);
 
 			model.addAttribute("mensaje", "Cliente eliminado");
 			model.addAttribute("clase", "text-center alert alert-success");

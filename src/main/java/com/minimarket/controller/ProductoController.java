@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
 import com.minimarket.model.Categoria;
 import com.minimarket.model.Producto;
 import com.minimarket.model.Proveedor;
@@ -27,93 +28,89 @@ public class ProductoController {
 	@RequestMapping("/producto")
 	private String lista(Model model) {
 		RestTemplate rt = new RestTemplate();
-		ResponseEntity<Producto[]> responseProg = rt.getForEntity(URL + "/producto/lista", Producto[].class);
-		model.addAttribute("lstProductos", responseProg.getBody());
+		ResponseEntity<Producto[]> lstProductos = rt.getForEntity(URL + "/producto/lista", Producto[].class);
+		model.addAttribute("lstProductos", lstProductos.getBody());
 		model.addAttribute("producto", new Producto());
 		return "listProducto";
 	}
 	
 	@RequestMapping("/crear_pro")
-	public String openNewProducto(Model model) {
+	public String crearProducto(Model model) {
 		RestTemplate rt = new RestTemplate();
 		ResponseEntity<Categoria[]> lstCategoria = rt.getForEntity(URL + "/util/categoria", Categoria[].class);
 		ResponseEntity<Proveedor[]> lstProveedor = rt.getForEntity(URL + "/proveedor/lista",Proveedor[].class);
 		ResponseEntity<UnidadMedida[]> lstUnidadMedida = rt.getForEntity(URL + "/util/unidadMedida",UnidadMedida[].class);
 		model.addAttribute("producto", new Producto());
-		model.addAttribute("tipocla", "password");
 		model.addAttribute("lstCategorias", lstCategoria.getBody());
 		model.addAttribute("lstProveedor", lstProveedor.getBody());
 		model.addAttribute("lstUMedida", lstUnidadMedida.getBody());
 		return "newProducto";
 	}
-	/*
-	@RequestMapping("graba_usu")
-	public String saveNewUser(@ModelAttribute Usuario usuario, Model model, RedirectAttributes redirect) {
-		String apiUrlRegistro = URL + "/usuario/registrar";
+	
+	@RequestMapping("graba_pro")
+	public String grabarProducto(@ModelAttribute Producto producto, Model model, RedirectAttributes redirect) {
+		String apiUrlRegistro = URL + "/producto/registrar";
 
 		// Crea una instancia de RestTemplate
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate rt = new RestTemplate();
 
 		try {
 			Gson gson = new Gson();
-			String json = gson.toJson(usuario);
+			String json = gson.toJson(producto);
 
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			HttpEntity<String> entity = new HttpEntity<>(json, headers);
 
-			restTemplate.postForObject(apiUrlRegistro, entity, String.class);
+			rt.postForObject(apiUrlRegistro, entity, String.class);
 
-			redirect.addFlashAttribute("mensaje", "Se reigstró usuario exitosamente");
+			redirect.addFlashAttribute("mensaje", "Se reigstró el producto exitosamente");
 			redirect.addFlashAttribute("clase", "alert alert-success");
 		} catch (Exception e) {
-			redirect.addFlashAttribute("mensaje", "Error al registrar usuario");
+			redirect.addFlashAttribute("mensaje", "Error al registrar el producto");
 			redirect.addFlashAttribute("clase", "alert alert-danger");
 		}
-		return "redirect:/crear_usu";
+		return "redirect:/crear_pro";
 	}
 
-	@RequestMapping("editar_usu")
-	public String buscarUser(@ModelAttribute Usuario u, Model model, RedirectAttributes redirect) {
-		String apiUrl = URL + "/usuario/buscar/" + u.getIde_usu();
+	@RequestMapping("editar_pro")
+	public String buscarProducto(@ModelAttribute Producto producto, Model model, RedirectAttributes redirect) {
+		String apiUrl = URL + "/producto/buscar/" + producto.getIde_pro();
 
 		// Crea una instancia de RestTemplate
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate rt = new RestTemplate();
 
 		try {
 			// Realiza la solicitud HTTP para buscar al usuario por su ID
-			ResponseEntity<Usuario[]> response = restTemplate.exchange(apiUrl, HttpMethod.GET, null, Usuario[].class);
-			ResponseEntity<TipoUsuario[]> lstTipoUser = restTemplate.getForEntity(URL + "/util/tipoUsuario",
-					TipoUsuario[].class);
-			ResponseEntity<TipoDocumento[]> lstTipoDocs = restTemplate.getForEntity(URL + "/util/tipoDocumento",
-					TipoDocumento[].class);
-			// Obtiene la respuesta de la API REST
-			Usuario[] usuarioEncontrado = response.getBody();
-
-			model.addAttribute("usuario", usuarioEncontrado);
-			model.addAttribute("tipocla", "text");
-			model.addAttribute("lstTipoUser", lstTipoUser);
-			model.addAttribute("lstTipoDocs", lstTipoDocs);
-			return "newUser";
+			ResponseEntity<Producto[]> productoEncontrado = rt.exchange(apiUrl, HttpMethod.GET, null, Producto[].class);
+			ResponseEntity<Categoria[]> lstCategoria = rt.getForEntity(URL + "/util/categoria", Categoria[].class);
+			ResponseEntity<Proveedor[]> lstProveedor = rt.getForEntity(URL + "/proveedor/lista",Proveedor[].class);
+			ResponseEntity<UnidadMedida[]> lstUnidadMedida = rt.getForEntity(URL + "/util/unidadMedida",UnidadMedida[].class);
+			
+			model.addAttribute("producto", productoEncontrado.getBody());
+			model.addAttribute("lstCategorias", lstCategoria.getBody());
+			model.addAttribute("lstProveedor", lstProveedor.getBody());
+			model.addAttribute("lstUMedida", lstUnidadMedida.getBody());
+			return "newProducto";
 
 		} catch (Exception e) {
 			model.addAttribute("mensaje", "Error al buscar el usuario");
 			model.addAttribute("clase", "alert alert-danger");
-			return "redirect:/crear_usu";
+			return "redirect:/crear_pro";
 		}
 
-	}*/
+	}
 
 	@RequestMapping("eliminar_pro")
 	public String eliminarPro(@ModelAttribute Producto p, Model model, RedirectAttributes redirect) {
 		String apiUrl = "http://localhost:8091/producto/eliminar/" + p.getIde_pro();
 
 		// Crea una instancia de RestTemplate
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate rt = new RestTemplate();
 
 		try {
 			// Realiza la solicitud HTTP para eliminar al usuario por su ID
-			restTemplate.exchange(apiUrl, HttpMethod.DELETE, null, Void.class);
+			rt.exchange(apiUrl, HttpMethod.DELETE, null, Void.class);
 
 			model.addAttribute("mensaje", "Producto eliminado");
 			model.addAttribute("clase", "text-center alert alert-success");

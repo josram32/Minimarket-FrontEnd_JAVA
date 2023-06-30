@@ -1,8 +1,5 @@
 package com.minimarket.controller;
 
-import java.util.List;
-
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -30,31 +27,31 @@ public class UsuarioController {
 	@RequestMapping("/user")
 	private String lista(Model model) {
 		RestTemplate rt = new RestTemplate();
-		ResponseEntity<Usuario[]> responseProg = rt.getForEntity(URL + "/usuario/lista", Usuario[].class);
-		model.addAttribute("lstUsuarios", responseProg.getBody());
+		ResponseEntity<Usuario[]> lstUsuarios = rt.getForEntity(URL + "/usuario/lista", Usuario[].class);
+		model.addAttribute("lstUsuarios", lstUsuarios.getBody());
 		model.addAttribute("usuario", new Usuario());
 		return "listUser";
 	}
 
 	@RequestMapping("/crear_usu")
-	public String openNewUser(Model model) {
+	public String crearUsuario(Model model) {
 		RestTemplate rt = new RestTemplate();
-		ResponseEntity<TipoUsuario[]> responseProg = rt.getForEntity(URL + "/util/tipoUsuario", TipoUsuario[].class);
-		ResponseEntity<TipoDocumento[]> responseProy = rt.getForEntity(URL + "/util/tipoDocumento",
+		ResponseEntity<TipoUsuario[]> lstTipoUser = rt.getForEntity(URL + "/util/tipoUsuario", TipoUsuario[].class);
+		ResponseEntity<TipoDocumento[]> lstTipoDocs = rt.getForEntity(URL + "/util/tipoDocumento",
 				TipoDocumento[].class);
 		model.addAttribute("usuario", new Usuario());
 		model.addAttribute("tipocla", "password");
-		model.addAttribute("lstTipoUser", responseProg.getBody());
-		model.addAttribute("lstTipoDocs", responseProy.getBody());
+		model.addAttribute("lstTipoUser", lstTipoUser.getBody());
+		model.addAttribute("lstTipoDocs", lstTipoDocs.getBody());
 		return "newUser";
 	}
 
 	@RequestMapping("graba_usu")
-	public String saveNewUser(@ModelAttribute Usuario usuario, Model model, RedirectAttributes redirect) {
+	public String grabaUsuario(@ModelAttribute Usuario usuario, Model model, RedirectAttributes redirect) {
 		String apiUrlRegistro = URL + "/usuario/registrar";
 
 		// Crea una instancia de RestTemplate
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate rt = new RestTemplate();
 
 		try {
 			Gson gson = new Gson();
@@ -64,9 +61,9 @@ public class UsuarioController {
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			HttpEntity<String> entity = new HttpEntity<>(json, headers);
 
-			restTemplate.postForObject(apiUrlRegistro, entity, String.class);
+			rt.postForObject(apiUrlRegistro, entity, String.class);
 
-			redirect.addFlashAttribute("mensaje", "Se reigstró usuario exitosamente");
+			redirect.addFlashAttribute("mensaje", "Se reigstró al usuario exitosamente");
 			redirect.addFlashAttribute("clase", "alert alert-success");
 		} catch (Exception e) {
 			redirect.addFlashAttribute("mensaje", "Error al registrar usuario");
@@ -76,18 +73,18 @@ public class UsuarioController {
 	}
 
 	@RequestMapping("editar_usu")
-	public String buscarUser(@ModelAttribute Usuario u, Model model, RedirectAttributes redirect) {
+	public String buscarUsuario(@ModelAttribute Usuario u, Model model, RedirectAttributes redirect) {
 		String apiUrl = URL + "/usuario/buscar/" + u.getIde_usu();
 
 		// Crea una instancia de RestTemplate
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate rt = new RestTemplate();
 
 		try {
 			// Realiza la solicitud HTTP para buscar al usuario por su ID
-			ResponseEntity<Usuario[]> response = restTemplate.exchange(apiUrl, HttpMethod.GET, null, Usuario[].class);
-			ResponseEntity<TipoUsuario[]> lstTipoUser = restTemplate.getForEntity(URL + "/util/tipoUsuario",
+			ResponseEntity<Usuario[]> response = rt.exchange(apiUrl, HttpMethod.GET, null, Usuario[].class);
+			ResponseEntity<TipoUsuario[]> lstTipoUser = rt.getForEntity(URL + "/util/tipoUsuario",
 					TipoUsuario[].class);
-			ResponseEntity<TipoDocumento[]> lstTipoDocs = restTemplate.getForEntity(URL + "/util/tipoDocumento",
+			ResponseEntity<TipoDocumento[]> lstTipoDocs = rt.getForEntity(URL + "/util/tipoDocumento",
 					TipoDocumento[].class);
 			// Obtiene la respuesta de la API REST
 			Usuario[] usuarioEncontrado = response.getBody();
@@ -107,15 +104,15 @@ public class UsuarioController {
 	}
 
 	@RequestMapping("eliminar_usu")
-	public String eliminarUser(@ModelAttribute Usuario u, Model model, RedirectAttributes redirect) {
+	public String eliminarUsuario(@ModelAttribute Usuario u, Model model, RedirectAttributes redirect) {
 		String apiUrl = "http://localhost:8091/usuario/eliminar/" + u.getIde_usu();
 
 		// Crea una instancia de RestTemplate
-		RestTemplate restTemplate = new RestTemplate();
+		RestTemplate rt = new RestTemplate();
 
 		try {
 			// Realiza la solicitud HTTP para eliminar al usuario por su ID
-			restTemplate.exchange(apiUrl, HttpMethod.DELETE, null, Void.class);
+			rt.exchange(apiUrl, HttpMethod.DELETE, null, Void.class);
 
 			model.addAttribute("mensaje", "Usuario eliminado");
 			model.addAttribute("clase", "text-center alert alert-success");

@@ -47,7 +47,7 @@
                                 					<td th:text="${v.tel_prv}"></td>
                                 					<td th:text="${v.ema_prv}"></td>
                                 					<td>
-                                						<form action="/editar_prv" method="post">
+                                						<form action="/editar_prv" method="get">
 															<input type="hidden" name="ide_prv" th:value="${v.ide_prv}"/>
 															<button class="btn btn-success">Editar</button>
 														</form>
